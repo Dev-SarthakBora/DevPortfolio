@@ -41,7 +41,7 @@ const AnimatedCounter = ({ target, suffix }: { target: number; suffix: string })
   }, [target, hasAnimated]);
 
   return (
-    <div ref={ref} className="stat-number">
+    <div ref={ref} className="stat-number text-3xl md:text-4xl lg:text-5xl">
       {count}{suffix}
     </div>
   );
@@ -49,9 +49,9 @@ const AnimatedCounter = ({ target, suffix }: { target: number; suffix: string })
 
 const StatsSection = () => {
   return (
-    <section className="py-20 px-6 relative z-10">
+    <section className="py-12 md:py-20 px-4 md:px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -59,10 +59,10 @@ const StatsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="glass-card p-8 text-center"
+              className="glass-card p-4 md:p-8 text-center"
             >
               <AnimatedCounter target={stat.target} suffix={stat.suffix} />
-              <p className="text-muted-foreground mt-3 text-sm md:text-base">{stat.label}</p>
+              <p className="text-muted-foreground mt-2 md:mt-3 text-xs md:text-base">{stat.label}</p>
             </motion.div>
           ))}
         </div>

@@ -39,9 +39,9 @@ const SkillBar = ({ name, level, delay }: { name: string; level: number; delay: 
     whileInView={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.5, delay }}
     viewport={{ once: true }}
-    className="space-y-2"
+    className="space-y-1.5 md:space-y-2"
   >
-    <div className="flex justify-between text-sm">
+    <div className="flex justify-between text-xs md:text-sm">
       <span className="font-medium">{name}</span>
       <span className="text-muted-foreground">{level}%</span>
     </div>
@@ -59,7 +59,7 @@ const SkillBar = ({ name, level, delay }: { name: string; level: number; delay: 
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="py-20 px-6 relative z-10 bg-card/30">
+    <section id="skills" className="py-16 md:py-20 px-4 md:px-6 relative z-10 bg-card/30">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -67,29 +67,29 @@ const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
         >
-          <h2 className="section-heading gradient-text">Technical Arsenal</h2>
-          <p className="text-muted-foreground text-lg">Tools and technologies I work with daily</p>
+          <h2 className="section-heading gradient-text text-3xl md:text-4xl lg:text-5xl">Technical Arsenal</h2>
+          <p className="text-muted-foreground text-base md:text-lg">Tools and technologies I work with daily</p>
         </motion.div>
 
         {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-8 md:mb-12">
           {/* Programming Languages */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="glass-card p-8"
+            className="glass-card p-5 md:p-8"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                <Code className="w-5 h-5 text-primary" />
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                <Code className="w-4 h-4 md:w-5 md:h-5 text-primary" />
               </div>
-              <h3 className="text-xl font-display font-bold text-primary">Programming Languages</h3>
+              <h3 className="text-lg md:text-xl font-display font-bold text-primary">Programming Languages</h3>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               {programmingSkills.map((skill, index) => (
                 <SkillBar key={skill.name} {...skill} delay={0.2 + index * 0.1} />
               ))}
@@ -102,15 +102,15 @@ const SkillsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="glass-card p-8"
+            className="glass-card p-5 md:p-8"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center">
-                <Wrench className="w-5 h-5 text-secondary" />
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-secondary/20 flex items-center justify-center">
+                <Wrench className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
               </div>
-              <h3 className="text-xl font-display font-bold text-secondary">Data & Analytics Tools</h3>
+              <h3 className="text-lg md:text-xl font-display font-bold text-secondary">Data & Analytics Tools</h3>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               {dataTools.map((skill, index) => (
                 <SkillBar key={skill.name} {...skill} delay={0.3 + index * 0.1} />
               ))}
@@ -124,15 +124,15 @@ const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           viewport={{ once: true }}
-          className="glass-card p-8"
+          className="glass-card p-5 md:p-8"
         >
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
-              <Layers className="w-5 h-5 text-accent" />
+          <div className="flex items-center justify-center gap-2 md:gap-3 mb-6 md:mb-8">
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-accent/20 flex items-center justify-center">
+              <Layers className="w-4 h-4 md:w-5 md:h-5 text-accent" />
             </div>
-            <h3 className="text-xl font-display font-bold text-accent">Core Competencies</h3>
+            <h3 className="text-lg md:text-xl font-display font-bold text-accent">Core Competencies</h3>
           </div>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
             {competencies.map((comp, index) => (
               <motion.span
                 key={comp}
@@ -140,7 +140,7 @@ const SkillsSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: 0.4 + index * 0.03 }}
                 viewport={{ once: true }}
-                className="skill-pill"
+                className="skill-pill text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2"
               >
                 {comp}
               </motion.span>
