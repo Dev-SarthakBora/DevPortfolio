@@ -1,25 +1,46 @@
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Github, Linkedin, Send } from 'lucide-react';
+import { Mail, MapPin, Send } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 const ContactSection = () => {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const mailtoLink = `mailto:borasarthak275@gmail.com?subject=${encodeURIComponent(formData.subject || 'Portfolio Contact')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
-    window.location.href = mailtoLink;
-    toast({
-      title: "Opening email client...",
-      description: "Your default email client should open shortly.",
-    });
+    setIsSubmitting(true);
+    
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://formspree.io/f/xrbndjld', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message sent!",
+          description: "Thank you for reaching out. I'll get back to you soon.",
+        });
+        form.reset();
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -67,37 +88,6 @@ const ContactSection = () => {
                 <p className="font-medium text-sm md:text-base">India</p>
               </div>
             </div>
-
-            <div className="pt-4 md:pt-6">
-              <p className="text-muted-foreground mb-3 md:mb-4 text-sm md:text-base">Connect with me on social media:</p>
-              <div className="flex gap-3 md:gap-4">
-                <a
-                  href="https://github.com/Dev-SarthakBora"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-icon w-10 h-10 md:w-12 md:h-12"
-                  aria-label="GitHub"
-                >
-                  <Github size={18} className="md:w-5 md:h-5" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/sarthak-bora"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-icon w-10 h-10 md:w-12 md:h-12"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={18} className="md:w-5 md:h-5" />
-                </a>
-                <a
-                  href="mailto:borasarthak275@gmail.com"
-                  className="social-icon w-10 h-10 md:w-12 md:h-12"
-                  aria-label="Email"
-                >
-                  <Mail size={18} className="md:w-5 md:h-5" />
-                </a>
-              </div>
-            </div>
           </motion.div>
 
           {/* Contact Form */}
@@ -114,9 +104,8 @@ const ContactSection = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name"
                     required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm md:text-base"
                     placeholder="Your name"
                   />
@@ -126,9 +115,8 @@ const ContactSection = () => {
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm md:text-base"
                     placeholder="your@email.com"
                   />
@@ -139,8 +127,7 @@ const ContactSection = () => {
                 <input
                   type="text"
                   id="subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  name="subject"
                   className="w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm md:text-base"
                   placeholder="What's this about?"
                 />
@@ -149,20 +136,20 @@ const ContactSection = () => {
                 <label htmlFor="message" className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">Message</label>
                 <textarea
                   id="message"
+                  name="message"
                   required
                   rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full px-3 md:px-4 py-2.5 md:py-3 rounded-xl bg-muted/50 border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-none text-sm md:text-base"
                   placeholder="Tell me about your project..."
                 />
               </div>
               <button
                 type="submit"
-                className="w-full btn-hero-primary inline-flex items-center justify-center gap-2 text-sm md:text-base py-3 md:py-4"
+                disabled={isSubmitting}
+                className="w-full btn-hero-primary inline-flex items-center justify-center gap-2 text-sm md:text-base py-3 md:py-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={16} className="md:w-[18px] md:h-[18px]" />
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </motion.div>
